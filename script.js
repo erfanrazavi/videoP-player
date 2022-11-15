@@ -1,3 +1,5 @@
+// select html element
+
 let playArea = document.querySelector('.myPlayer')
 let media = playArea.querySelector('video')
 let play = playArea.querySelector('.play')
@@ -15,9 +17,13 @@ let Timer = playArea.querySelector('.timer');
 let current = Timer.querySelector('.currentTime')
 let videoTime = Timer.querySelector('.videoTime')
 
+// Default volume
 media.volume = .5
+
 play.addEventListener('click' , function(){
+    //Show original video time
     videoTime.textContent = getTime(media.duration)
+
     if (media.paused){
         media.play()
         iconplay.textContent = 'pause'
@@ -35,6 +41,7 @@ forward.addEventListener('click' , function(){
     media.currentTime += 5; 
 })
 
+// Video volume input
 volume.addEventListener('mouseenter' , function(){
     volumeProgress.classList.toggle('active')
     volumeProgress.style.color = 'black'
@@ -43,17 +50,22 @@ volume.addEventListener('mouseleave' , function(){
     volumeProgress.classList.toggle('active')
 })
 
+//Build a progress bar for volume
+
 volumeProgressInput.addEventListener('input' , function(){
     media.volume = this.value / 100
     this.style = ` background: linear-gradient(90deg, rgb(54, 53, 52) ${this.value}%, #e1e1e1 0%);`
 })
 
+
+//get video time to make a progress bar
 media.addEventListener('timeupdate' , function(){
    current.textContent = getTime(media.currentTime)
    let barLength = (media.currentTime / media.duration) * 100
    progressRange.style = ` background: linear-gradient(90deg, rgb(20, 12, 4) ${barLength}%, #e1e1e1 0%);`
 })
 
+//make fullscreen for video
 fullscreen.addEventListener('click' , function(){
     if (!document.fullscreenElement) {
         if(playArea.requestFullscreen){
@@ -72,12 +84,12 @@ fullscreen.addEventListener('click' , function(){
     }
         
 })
-
+//get input value To select the desired time 
 progressRange.addEventListener('input' , function(){
     media.currentTime = (this.value / 100) * media.duration
 })
 
-
+//make function for (Show original video time)
 function getTime(time){
     let minute = Math.floor(time/ 60)
     let second = Math.floor(time - (minute * 60))
