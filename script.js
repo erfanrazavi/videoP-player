@@ -115,13 +115,7 @@ function getTime(time){
 
 // Apply the keyboard event on the media player
 window.addEventListener('keydown' , function(e){
-    if (media.paused && e.keyCode === 32){
-        media.play()
-        iconplay.textContent = 'pause'
-    }else{
-        media.pause()
-        iconplay.textContent = 'play_arrow'
-    }
+    
     
     if(e.keyCode === 13 && !document.fullscreenElement){
             playArea.requestFullscreen()  
@@ -133,11 +127,18 @@ window.addEventListener('keydown' , function(e){
     }else if(playArea.webkitFullscreenElement){
         playArea.webkitFullscreenElement();
     }
-    else if (document.exitFullscreen) {
+    else if (e.keyCode === 13 && document.exitFullscreen ) {
         document.exitFullscreen()
         fullscreenIcon.textContent = 'fullscreen'
     }
 
-    
+    if (media.paused && e.keyCode === 32){
+        media.play()
+        iconplay.textContent = 'pause'
+    }else{
+        media.pause()
+        iconplay.textContent = 'play_arrow'
+    }
     
 })
+
