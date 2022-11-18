@@ -12,6 +12,7 @@ let fullscreenIcon = fullscreen.querySelector('span')
 let volumeProgress = volume.querySelector('.volume_progress')
 let volumeProgressInput = volumeProgress.querySelector('input')
 let progressBar = playArea.querySelector('.progress_bar')
+let inputt = progressBar.querySelector('.progress_bar')
 let progressRange = progressBar.querySelector('.progress_range')
 let Timer = playArea.querySelector('.timer');
 let current = Timer.querySelector('.currentTime')
@@ -44,7 +45,8 @@ forward.addEventListener('click' , function(){
 // Video volume input
 volume.addEventListener('mouseenter' , function(){
     volumeProgress.classList.toggle('active')
-    volumeProgress.style.color = 'black'
+    volumeProgress.style.color = 'black';
+    volumeProgressInput.setAttribute('style' , 'transition : 1s')
 })
 volume.addEventListener('mouseleave' , function(){
     volumeProgress.classList.toggle('active')
@@ -109,3 +111,33 @@ function getTime(time){
     }
     return `${minuteValue} : ${secondValue}`
 }
+
+
+// Apply the keyboard event on the media player
+window.addEventListener('keydown' , function(e){
+    if (media.paused && e.keyCode === 32){
+        media.play()
+        iconplay.textContent = 'pause'
+    }else{
+        media.pause()
+        iconplay.textContent = 'play_arrow'
+    }
+    
+    if(e.keyCode === 13 && !document.fullscreenElement){
+            playArea.requestFullscreen()  
+            fullscreenIcon.textContent = 'fullscreen_exit'
+    }else if(playArea.mozFullScreenElement){
+        playArea.mozFullScreenElement();
+    }else if(playArea.msFullscreenElement){
+        playArea.msFullscreenElement()
+    }else if(playArea.webkitFullscreenElement){
+        playArea.webkitFullscreenElement();
+    }
+    else if (document.exitFullscreen) {
+        document.exitFullscreen()
+        fullscreenIcon.textContent = 'fullscreen'
+    }
+
+    
+    
+})
